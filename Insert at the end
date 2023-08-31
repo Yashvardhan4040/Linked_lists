@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+struct node{
+    int data;
+    node*next;
+    node(int x)
+    {
+        data=x;
+        next=NULL;
+    }
+};
+node*head=NULL;
+void traverselist(node*head)
+{
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";//1->3->6->
+        head=head->next;
+    }
+    
+}
+node* insertend(node*head,int data)
+{
+   node*temp=new node(data);
+   if(head==NULL)
+   return temp;
+   node*curr=head;
+   while(curr->next!=NULL)
+   {
+      curr=curr->next; 
+   }
+   curr->next=temp;
+   return head;
+}
+int main()
+{
+    head=insertend(head,40);
+    head=insertend(head,30);
+    head=insertend(head,20);
+    head=insertend(head,10);
+    traverselist(head);
+}
