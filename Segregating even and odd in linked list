@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+void printList(Node *head) {
+    Node *curr = head;
+    while (curr != NULL) {
+        cout << curr->data << " ";
+        curr = curr->next;
+    }
+    cout << endl;
+}
+
+Node *segregateEvenOdd(Node *head) {
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+
+    Node *evenHead = NULL, *evenTail = NULL;
+    Node *oddHead = NULL, *oddTail = NULL;
+
+    Node *curr = head;
+
+    while (curr != NULL) {//Use for loop for convinience.
+        if (curr->data % 2 == 0) {
+            if (evenHead == NULL) {
+                evenHead = evenTail = curr;
+            } else {
+                evenTail->next = curr;
+                evenTail = curr;
+            }
+        } else {
+            if (oddHead == NULL) {
+                oddHead = oddTail = curr;
+            } else {
+                oddTail->next = curr;
+                oddTail = curr;
+            }
+        }
+        curr = curr->next;
+    }
+
+    if (evenTail != NULL) {
+        evenTail->next = oddHead;
+    }
+/*After traversing the entire linked list, if there are even nodes (i.e., evenTail is not NULL), the next of evenTail is set to 
+the oddHead to merge the two lists.
+
+The next of oddTail is set to NULL to terminate the merged list.*/
+
+
+    if (oddTail != NULL) {
+        oddTail->next = NULL;
+    }
+
+    return evenHead != NULL ? evenHead : oddHead;
+}
+
+int main() {
+    Node *head = new Node(17);
+    head->next = new Node(15);
+    head->next->next = new Node(8);
+    head->next->next->next = new Node(12);
+    head->next->next->next->next = new Node(10);
+
+    cout << "Original Linked List: ";
+    printList(head);
+
+    head = segregateEvenOdd(head);
+
+    cout << "Linked List after Segregation: ";
+    printList(head);
+
+    return 0;
+}
+
